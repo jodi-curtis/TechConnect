@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Posts{% endblock%}
+{% block main %}
+
+<h1>Posts</h1>
+
+<!-- Form to creat a new post -->
+<form action="{{ url_for('create_post') }}" method="POST">
+    <h2>Create a new post:</h2>
+    <!-- Title input -->
+    <input type="text" name="title" placeholder="Post Title" required>
+    <!-- Post content text area -->
+    <textarea name="content" rows="4" cols="50" placeholder="What's on your mind?" required></textarea>
+    <!-- Post button -->
+    <button type="submit">Post</button>
+</form>
+
+<hr>
+
+<!-- If posts exist -->
+{% if posts %}
+    <!-- For each post -->
+    {% for post in posts %}
+        <div class="">
+            <!-- Posts title -->
+            <h1>{{ post.title }}</h1>
+            <!-- User who created post and link to their profile -->
+            <a href="/profile/{{ post.user.id }}">
+                <h5>{{ post.user.profile.first_name }} {{ post.user.profile.surname }}</h5>
+            </a>
+            <!-- Time the post was created -->
+            <p>{{ post.timestamp.strftime('%d-%m-%Y %H:%M') }}</p>
+            <!-- Posts content -->
+            <h2>{{ post.content }}</h2>
+
+            <!-- If current user created post -->
+            {% if post.user_id == current_user.id %}
+                <!-- Delete button which shows javascript alert to ask user if they are sure they want to delete post -->
+                <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirmDelete();">
+                    <button type="submit">Delete Post</button>
+                </form>
+            {% endif %}
+
+            <!-- Like Button -->
+            <form action="{{ url_for('like_post', post_id=post.id) }}" method="POST">
+                <button type="submit">
+                    <!-- If user has already liked post, show 'Unlike'-->
+                    {% if post.liked_by_current_user %}
+                        Unlike
+                    <!-- Else show 'Like' -->
+                    {% else %}
+                        Like
+                    {% endif %}
+                </button>
+                <!-- Show total number of likes on post -->
+                <span>{{ post.likes|length }} Likes</span>
+            </form>
+
+            <!-- If post has comments -->
+            {% if post.comments%}
+                <ul>
+                    <!-- For each comment-->
+                    {% for comment in post.comments %}
+                        <li>
+                            <!-- Name of user who posted comment -->
+                            <strong>{{ comment.user.profile.first_name }} {{ comment.user.profile.surname }}:</strong>
+                            <!-- Comment content --> 
+                            {{ comment.comment }} 
+                            <!-- Date and time comment was posted -->
+                            <small>{{ comment.timestamp.strftime('%d-%m-%Y %H:%M') }}</small>
+                            <!-- If comment was posted by current user, allow them to delete -->
+                            {% if comment.user_id == current_user.id %}
+                                <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="POST">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            <!-- Else show 'No Comments' message -->
+            {% else %}
+                <p>No Comments</p>
+            {% endif %}
+
+            <!-- Form to add a comment to post -->
+            <form action="{{ url_for('comment_post', post_id=post.id) }}" method="POST">
+                <!-- Comment textares-->
+                <textarea name="comment" rows="2" placeholder="Write a comment..." required></textarea>
+                <!-- Comment button -->
+                <button type="submit">Comment</button>
+            </form>
+
+        </div>
+    {% endfor %}
+<!-- Else show 'No posts found' message -->
+{% else %}
+    <p>No Posts Found</p>
+{% endif %}
+
+
+{% endblock%}
+{% block scripts %}
+    <!--Link to Javascript-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock%}

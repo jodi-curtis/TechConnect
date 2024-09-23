@@ -1,0 +1,39 @@
+header{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+}
+
+.header-links{
+    display: flex;
+    align-items: center;
+}
+
+.header-links .items {
+    margin-left: 15px;
+}
+
+nav {
+    background-color: #eee;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav-links li {
+    flex: 1;
+    text-align: center;
+}

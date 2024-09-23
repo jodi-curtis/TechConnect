@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock%}
+{% block main %}
+    <h1>Profile</h1>
+    <!-- Users Name -->
+    <h1>{{ profile.first_name }} {{ profile.surname }} ({{ user.username }})</h1>
+    <!-- Users Email -->
+    <p>Email: {{ profile.email }}</p>
+
+    <!-- If users bio is set then show -->
+    {% if profile.bio %}
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    {% endif %}
+
+    <br>
+
+    <!-- If user has selected programming languages then show -->
+    {% if profile.programming_languages %}
+        <p>Programming Languages:</p>
+        <div>
+            <!-- For each lanuage show name and image -->
+            {% for language in profile.programming_languages.split(', ') %}
+                <div>
+                    <img src="{{ url_for('static', filename=available_languages[language].split('static/')[1]) }}" alt="{{ language }}" style="width: 50px;">
+                    <span>{{ language }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <br>
+
+    <!-- If user has set their GitHub user name then show link to their GitHub -->
+    {% if profile.github %}
+        <p><strong>Link to GitHub:</strong> https://github.com/{{ profile.github }}</p>
+    {% endif %}
+
+    <br>
+
+    <!-- If user has set Linkedin account then show link to their Linkedin -->
+    {% if profile.github %}
+        <p><strong>Linkedin:</strong> {{ profile.linkedin }}</p>
+    {% endif %}
+
+    <!-- Button to edit profile page -->
+    <a href="{{ url_for('edit_profile', user_id = user.id) }}">
+        <button type="button">Edit Profile</button>
+    </a>
+{% endblock%}
+{% block scripts %}
+    <!--Link to Javascript-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock%}

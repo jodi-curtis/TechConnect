@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock%}
+{% block main %}
+    <h1>Notifications</h1>
+
+    <!-- Likes -->
+    <h2>Likes</h2>
+    <!-- If there are likes -->
+    {% if likes %}
+        <ul>
+            <!-- For each like -->
+            {% for like in likes %}
+                <!-- Username and which post they liked -->
+                <li>{{ like.user.username }} liked your post "{{ like.post.title }}"</li>
+            {% endfor %}
+        </ul>
+    <!-- Else print 'No likes' message -->
+    {% else %}
+        <p>No likes on your posts..</p>
+    {% endif %}
+
+
+    <!-- Comments -->
+    <h2>Comments</h2>
+    <!-- If there are comments -->
+    {% if comments %}
+    <ul>
+        <!-- For each comment -->
+        {% for comment in comments %}
+            <!-- Username, which post they commented on and their comment -->
+            <li>{{ comment.user.username }} commented on your post "{{ comment.post.title }}": {{ comment.comment }}</li>
+        {% endfor %}
+    </ul>
+    <!-- Else print 'No comments' message -->
+    {% else %}
+        <p>No comments on your posts..</p>
+    {% endif %}
+
+
+    <!-- Friend Requests -->
+    <h2>Friend Requests</h2>
+    <!-- For each recieved request -->
+    {% for request in received_requests %}
+        <!-- Username of request sender -->
+        <p>{{ request.sender.username }}</p>
+        <!-- Button to accept request -->
+        <form action="{{ url_for('accept_request', request_id=request.id) }}" method="post">
+            <input type="hidden" name="next" value="notifications">
+            <button type="submit">Accept</button>
+        </form>
+        <!-- Button to decline request -->
+        <form action="{{ url_for('decline_request', request_id=request.id) }}" method="post">
+            <input type="hidden" name="next" value="notifications">
+            <button type="submit">Decline</button>
+        </form>
+    <!-- Else print 'No friend requests' message -->
+    {% else %}
+        <p>No friend requests at the moment.</p>
+    {% endfor %}
+
+
+
+
+{% endblock%}
+{% block scripts %}
+    <!--Link to Javascript-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock%}
