@@ -1,52 +1,57 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock%}
 {% block main %}
-    <h1>Profile</h1>
-    <!-- Users Name -->
-    <h1>{{ profile.first_name }} {{ profile.surname }} ({{ user.username }})</h1>
-    <!-- Users Email -->
-    <p>Email: {{ profile.email }}</p>
+    <div class="profile-header">
+        <!-- Users Name -->
+        <h1 class="title">{{ profile.first_name }} {{ profile.surname }} ({{ user.username }})</h1>
+
+        {% if current_user.id == user.id %}
+            <!-- Button to edit profile page -->
+            <a href="{{ url_for('edit_profile', user_id = user.id) }}">
+                <button type="button">Edit Profile</button>
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="user-contact-info">
+        <!-- Users Email -->
+        <p><i class="fa-solid fa-envelope fa-xl"></i> {{ profile.email }}</p>
+
+        <!-- If user has set their GitHub user name then show link to their GitHub -->
+        {% if profile.github %}
+            <p> <i class="fa-brands fa-linkedin fa-xl"></i> https://github.com/{{ profile.github }}</p>
+        {% endif %}
+
+        <!-- If user has set Linkedin account then show link to their Linkedin -->
+        {% if profile.linkedin %}
+            <p><i class="fa-brands fa-github fa-xl"></i> {{ profile.linkedin }}</p>
+        {% endif %}
+    </div>
+
 
     <!-- If users bio is set then show -->
     {% if profile.bio %}
-        <p><strong>Bio:</strong> {{ profile.bio }}</p>
-    {% endif %}
-
-    <br>
-
-    <!-- If user has selected programming languages then show -->
-    {% if profile.programming_languages %}
-        <p>Programming Languages:</p>
-        <div>
-            <!-- For each lanuage show name and image -->
-            {% for language in profile.programming_languages.split(', ') %}
-                <div>
-                    <img src="{{ url_for('static', filename=available_languages[language].split('static/')[1]) }}" alt="{{ language }}" style="width: 50px;">
-                    <span>{{ language }}</span>
-                </div>
-            {% endfor %}
+        <div class="user-bio">
+            <p><strong>About me</strong></p>
+            <p>{{ profile.bio }}</p>
         </div>
     {% endif %}
 
-
-    <br>
-
-    <!-- If user has set their GitHub user name then show link to their GitHub -->
-    {% if profile.github %}
-        <p><strong>Link to GitHub:</strong> https://github.com/{{ profile.github }}</p>
+    <!-- If user has selected programming languages then show -->
+    {% if profile.programming_languages %}
+        <div class="user-languages">
+            <p id="languages-title">Programming Languages:</p>
+            <div class="languages-container">
+                <!-- For each lanuage show name and image -->
+                {% for language in profile.programming_languages.split(', ') %}
+                    <div class="language">
+                        <img src="{{ url_for('static', filename=available_languages[language].split('static/')[1]) }}" alt="{{ language }}">
+                        <p class="language-name">{{ language }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     {% endif %}
-
-    <br>
-
-    <!-- If user has set Linkedin account then show link to their Linkedin -->
-    {% if profile.github %}
-        <p><strong>Linkedin:</strong> {{ profile.linkedin }}</p>
-    {% endif %}
-
-    <!-- Button to edit profile page -->
-    <a href="{{ url_for('edit_profile', user_id = user.id) }}">
-        <button type="button">Edit Profile</button>
-    </a>
 {% endblock%}
 {% block scripts %}
     <!--Link to Javascript-->

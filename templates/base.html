@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://kit.fontawesome.com/fc6f6498bf.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!--Header-->
@@ -14,8 +15,8 @@
             <h1>Tech Connect</h1>
             <div class="header-links">
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('profile', user_id=current_user.id) }}" class="items">My Profile</a>
-                    <p class="items">{{ current_user.username }}</p>
+                    <p class="items">Welcome {{ current_user.profile.first_name }}!</p>
+                    <a href="{{ url_for('profile', user_id=current_user.id) }}" class="items"><i class="fa-solid fa-user fa-2xl"></i></a>
                     <form action="{{ url_for('logout_action') }}" method="POST" class="items">
                         <button type="submit">Logout</button>
                     </form>
@@ -29,12 +30,12 @@
 
         
         <!--Navigation to main pages-->
-        <nav>
-            <ul class="nav-links">
+        <nav class="main-nav">
+            <ul class="main-nav-links">
                 {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('posts') }}">Posts</a></li>
-                    <li><a href="{{ url_for('users') }}">Users</a></li>
-                    <li><a href="{{ url_for('notifications') }}">Notifications</a></li>
+                    <li><a href="{{ url_for('posts') }}" class="{% if request.endpoint == 'posts' %}active{% endif %}">Posts</a></li>
+                    <li><a href="{{ url_for('users') }}" class="{% if request.endpoint == 'users' %}active{% endif %}">Users</a></li>
+                    <li><a href="{{ url_for('notifications') }}" class="{% if request.endpoint == 'notifications' %}active{% endif %}">Notifications</a></li>
                 {% endif %}
             </ul>
         </nav>

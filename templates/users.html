@@ -1,80 +1,81 @@
 {% extends "base.html" %}
 {% block title %}Users{% endblock%}
 {% block main %}
-    <h1>Users</h1>
-
-    <!-- All users -->
-    <h2>All Users</h2>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Bio</th>
-            <th> Friend status</th>
-        </tr>
-
-        <!-- For each user -->
-        {% for user in users %}
-        <tr>
-            <!-- Users name-->
-            <td>{{ user.profile.first_name }} {{ user.profile.surname }}</td>
-            <!-- User username -->
-            <td><a href="{{ url_for('profile', user_id=user.id) }}">{{ user.username }}</a></td>
-            <!-- User bio (if set) -->
-            <td>{{ user.profile.bio or "No bio available" }}</td>
-            <td>
-                <!-- If user is friend -->
-                {% if user.id in friend_ids %}
-                <p>Friend</p>
-                <!-- If you have sent request to user -->
-                {% elif user in sent_requests %}
-                    <button disabled>Request Sent</button>
-                <!-- If user has send you a request -->
-                {% elif user.id in recieved_requests %}
-                    <!-- Button to accept request -->
-                    <form action="{{ url_for('accept_request', request_id=recieved_requests[user.id].id) }}" method="post">
-                        <input type="hidden" name="next" value="users">
-                        <button type="submit">Accept</button>
-                    </form>
-                    <!-- Button to decline request -->
-                    <form action="{{ url_for('decline_request', request_id=recieved_requests[user.id].id) }}" method="post">
-                        <input type="hidden" name="next" value="users">
-                        <button type="submit">Decline</button>
-                    </form>
-                <!-- Else -->
-                {% else %}
-                    <!-- Button to send friend request -->
-                    <form action="{{ url_for('send_request', receiver_id=user.id) }}" method="post">
-                        <button type="submit">Send Friend Request</button>
-                    </form>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h1 class="title">Users</h1>
 
 
-    <!-- Friends -->
-    <h2>Friends</h2>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Bio</th>
-        </tr>
+    <div class="tab">
+        <button class="tablinks user-tabs" onclick="openSection(event, 'Users')" id="defaultOpen">Users</button>
+        <button class="tablinks user-tabs" onclick="openSection(event, 'Friends')">Friends</button>
+    </div>
 
-        <!-- For each friend in friend list -->
-        {% for friend in friend_list %}
-        <tr>
-            <!-- Friends name-->
-            <td>{{ friend.profile.first_name }} {{ friend.profile.surname }}</td>
-            <!-- Friends username-->
-            <td>{{ friend.username }}</td>
-            <!-- Friends Bio (if set)-->
-            <td>{{ friend.profile.bio or "No bio available" }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div id="Users" class="tabcontent">
+        <!-- All users -->
+        <h2>All Users</h2>
+        <div class="user-container">
+            <!-- For each user -->
+            {% for user in users %}
+                <a href="{{ url_for('profile', user_id=user.id) }}" class="user">
+                    <div class="user-details">
+                        <!-- Users name-->
+                        <h2>{{ user.profile.first_name }} {{ user.profile.surname }}</h2>
+                        <!-- User bio (if set) -->
+                        {% if user.profile.bio %}
+                            <p>{{ user.profile.bio}}</p>
+                        {% endif %}
+                    </div>            
+
+                    <div class="friend-status">
+                        <!-- If user is friend show friend icon-->
+                        {% if user.id in friend_ids %}
+                            <button class="square-btn" disabled><i class="fa-solid fa-user-group fa-2xl"></i></button>
+                        <!-- If you have sent request to user show pending icon -->
+                        {% elif user in sent_requests %}
+                            <button class="square-btn" disabled><i class="fa-solid fa-spinner fa-2xl"></i></button>
+                        <!-- If user has send you a request -->
+                        {% elif user.id in recieved_requests %}
+                            <!-- Button to accept request -->
+                            <form action="{{ url_for('accept_request', request_id=recieved_requests[user.id].id) }}" method="post">
+                                <input type="hidden" name="next" value="users">
+                                <button class="square-btn accept" title="Accept Request" type="submit"><i class="fa-solid fa-check fa-2xl"></i></button>
+                            </form>
+                            <!-- Button to decline request -->
+                            <form action="{{ url_for('decline_request', request_id=recieved_requests[user.id].id) }}" method="post">
+                                <input type="hidden" name="next" value="users">
+                                <button class="square-btn decline" title="Decline Request" type="submit"><i class="fa-solid fa-xmark fa-2xl"></i></button>
+                            </form>
+                        <!-- Else -->
+                        {% else %}
+                            <!-- Button to send friend request -->
+                            <form action="{{ url_for('send_request', receiver_id=user.id) }}" method="post">
+                                <button class="square-btn send" title="Send Friend Request" type="submit"><i class="fa-solid fa-plus fa-2xl"></i></button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="Friends" class="tabcontent">
+        <!-- Friends -->
+        <h2>Friends</h2>
+        <div class="user-container">
+            <!-- For each friend in friend list -->
+            {% for friend in friend_list %}
+                <a href="{{ url_for('profile', user_id=friend.id) }}" class="user">
+                    <div class="user-details">
+                        <!-- Friends name-->
+                        <h2>{{ friend.profile.first_name }} {{ friend.profile.surname }}</h2>
+                        <!-- Friends Bio (if set)-->
+                        {% if friend.profile.bio %}
+                            <p>{{ friend.profile.bio }}</p>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
 
 
 

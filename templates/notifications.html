@@ -1,63 +1,86 @@
 {% extends "base.html" %}
 {% block title %}Notifications{% endblock%}
 {% block main %}
-    <h1>Notifications</h1>
+    <h1 class="title">Notifications</h1>
 
-    <!-- Likes -->
-    <h2>Likes</h2>
-    <!-- If there are likes -->
-    {% if likes %}
-        <ul>
-            <!-- For each like -->
-            {% for like in likes %}
-                <!-- Username and which post they liked -->
-                <li>{{ like.user.username }} liked your post "{{ like.post.title }}"</li>
+
+    <div class="tab">
+        <button class="tablinks notification-tabs" onclick="openSection(event, 'Likes')" id="defaultOpen">Likes</button>
+        <button class="tablinks notification-tabs" onclick="openSection(event, 'Comments')">Comments</button>
+        <button class="tablinks notification-tabs" onclick="openSection(event, 'Requests')">Requests</button>
+    </div>
+
+
+
+    <div id="Likes" class="tabcontent">
+        <!-- Likes -->
+        <h2>Likes</h2>
+        <!-- If there are likes -->
+        {% if likes %}
+            <ul class="likes-and-comments">
+                <!-- For each like -->
+                {% for like in likes %}
+                    <!-- Username and which post they liked -->
+                    <li><span id="liker-name">{{ like.user.profile.first_name }} {{ like.user.profile.surname }}</span> liked your post '{{ like.post.title }}'</li>
+                {% endfor %}
+            </ul>
+        <!-- Else print 'No likes' message -->
+        {% else %}
+            <p>No likes on your posts..</p>
+        {% endif %}
+    </div>
+
+
+    <div id="Comments" class="tabcontent">
+        <!-- Comments -->
+        <h2>Comments</h2>
+        <!-- If there are comments -->
+        {% if comments %}
+        <ul class="likes-and-comments">
+            <!-- For each comment -->
+            {% for comment in comments %}
+                <!-- Username, which post they commented on and their comment -->
+                <li><span id="commenter-name">{{ comment.user.profile.first_name }} {{ comment.user.profile.surname }}</span> commented on your post '{{ comment.post.title }}' - "{{ comment.comment }}"</li>
             {% endfor %}
         </ul>
-    <!-- Else print 'No likes' message -->
-    {% else %}
-        <p>No likes on your posts..</p>
-    {% endif %}
+        <!-- Else print 'No comments' message -->
+        {% else %}
+            <p>No comments on your posts..</p>
+        {% endif %}
+    </div>
 
-
-    <!-- Comments -->
-    <h2>Comments</h2>
-    <!-- If there are comments -->
-    {% if comments %}
-    <ul>
-        <!-- For each comment -->
-        {% for comment in comments %}
-            <!-- Username, which post they commented on and their comment -->
-            <li>{{ comment.user.username }} commented on your post "{{ comment.post.title }}": {{ comment.comment }}</li>
-        {% endfor %}
-    </ul>
-    <!-- Else print 'No comments' message -->
-    {% else %}
-        <p>No comments on your posts..</p>
-    {% endif %}
-
-
-    <!-- Friend Requests -->
-    <h2>Friend Requests</h2>
-    <!-- For each recieved request -->
-    {% for request in received_requests %}
-        <!-- Username of request sender -->
-        <p>{{ request.sender.username }}</p>
-        <!-- Button to accept request -->
-        <form action="{{ url_for('accept_request', request_id=request.id) }}" method="post">
-            <input type="hidden" name="next" value="notifications">
-            <button type="submit">Accept</button>
-        </form>
-        <!-- Button to decline request -->
-        <form action="{{ url_for('decline_request', request_id=request.id) }}" method="post">
-            <input type="hidden" name="next" value="notifications">
-            <button type="submit">Decline</button>
-        </form>
-    <!-- Else print 'No friend requests' message -->
-    {% else %}
-        <p>No friend requests at the moment.</p>
-    {% endfor %}
-
+    <div id="Requests" class="tabcontent">
+        <!-- Friend Requests -->
+        <h2>Friend Requests</h2>
+        <div class="user-container">
+            {% if received_requests %}
+                <!-- For each recieved request -->
+                {% for request in received_requests %}
+                    <a href="{{ url_for('profile', user_id=request.sender.id) }}" class="user">
+                        <div class="user-details">
+                            <!-- Request senders Name -->
+                            <h2>{{ request.sender.profile.first_name }} {{ request.sender.profile.surname }}</h2>
+                        </div>
+                        <div class="friend-status">
+                            <!-- Button to accept request -->
+                            <form action="{{ url_for('accept_request', request_id=request.id) }}" method="post">
+                                <input type="hidden" name="next" value="notifications">
+                                <button type="submit" class="square-btn accept" title="Accept Request"><i class="fa-solid fa-check fa-2xl"></i></button>
+                            </form>
+                            <!-- Button to decline request -->
+                            <form action="{{ url_for('decline_request', request_id=request.id) }}" method="post">
+                                <input type="hidden" name="next" value="notifications">
+                                <button type="submit" class="square-btn decline" title="Decline Request"><i class="fa-solid fa-xmark fa-2xl"></i></button>
+                            </form>
+                        </div>
+                    </a>
+                {% endfor %}
+            <!-- Else print 'No friend requests' message -->
+            {% else %}
+                <p>No friend requests at the moment.</p>
+            {% endif %}
+        </div>
+    </div>
 
 
 

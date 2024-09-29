@@ -30,12 +30,16 @@ def load_user(user_id):
 
 
 AVAILABLE_LANGUAGES = {
+    'HTML': 'static/images/languages/html.png',
+    'CSS': 'static/images/languages/css.png',
     'Python': 'static/images/languages/python.png',
     'JavaScript': 'static/images/languages/javascript.png',
     'Java': 'static/images/languages/java.png',
+    'PHP': 'static/images/languages/php.png',
     'C++': 'static/images/languages/cpp.png',
+    'C#': 'static/images/languages/csharp.png',
     'Ruby': 'static/images/languages/ruby.png',
-    'Go': 'static/images/languages/go.png'
+    'SQL': 'static/images/languages/sql.png'
 }
 
 
@@ -160,12 +164,14 @@ def edit_profile(user_id):
     profile = user.profile
 
     if request.method == 'POST':
+        # Set profile email as email from form
+        profile.email = request.form.get('email') or profile.email
         # Set profile bio as bio from form
         profile.bio = request.form.get('bio') or profile.bio
         # Set profiles GitHub username as Github username from form
         profile.github = request.form.get('github') or profile.github
         # Set profiles Linkedin as Linkedin from form
-        profile.linkedin = request.form.get('github') or profile.linkedin
+        profile.linkedin = request.form.get('linkedin') or profile.linkedin
         # Get selected languages from form
         selected_languages = request.form.getlist('languages')
         # Create string of selected languagaes and set as profiles languages

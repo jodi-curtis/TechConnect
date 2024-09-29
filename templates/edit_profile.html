@@ -1,49 +1,58 @@
 {% extends "base.html" %}
 {% block title %}Edit Profile{% endblock%}
 {% block main %}
-    <h1>Edit Profile</h1>
-    <!-- Users name -->
-    <h1>{{ profile.first_name }} {{ profile.surname }} ({{ user.username }})</h1>
-    <!-- Users Email -->
-    <p>Email: {{ profile.email }}</p>
+    <div class="edit-profile-container">
+        <h1 class="edit-title">Edit Profile</h1>
+        <!-- Users name -->
+        <h1 class="username">{{ profile.first_name }} {{ profile.surname }} ({{ user.username }})</h1>
 
-    <!-- Form to add/edit profile details-->
-    <form action="{{ url_for('edit_profile', user_id=user.id) }}" method="post">
-        <!-- Bio -->
-        <label for="bio">Bio:</label>
-        <!-- If Bio is set, show in textarea -->
-        <textarea name="bio" id="bio" rows="4" cols="50">{% if profile.bio %}{{ profile.bio }}{% endif %}</textarea>
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <!-- If Email set, show in text input -->
+        <input type="text" name="email" id="email" {% if profile.email %} value="{{ profile.email }}" {% endif %}>
+        
 
-        <br>
+        <!-- Form to add/edit profile details-->
+        <form action="{{ url_for('edit_profile', user_id=user.id) }}" method="post">
+            <!-- Bio -->
+            <label for="bio">Bio:</label>
+            <!-- If Bio is set, show in textarea -->
+            <textarea name="bio" id="bio" rows="4" cols="50">{% if profile.bio %}{{ profile.bio }}{% endif %}</textarea>
 
-        <!-- Languages -->
-        <label for="languages">Select Programming Languages:</label>
-        <!-- List all languages -->
-        {% for language in languages %}
-            <div>
-                <!-- If user has selected language, check the checkbox -->
-                <input type="checkbox" name="languages" value="{{ language }}"
-                {% if profile.programming_languages and language in profile.programming_languages.split(', ') %} checked {% endif %}>
-                {{ language }}
+            <br>
+
+            <!-- Languages -->
+            <label for="languages">Select Programming Languages:</label>
+            <div class="language-container">
+                <!-- List all languages -->
+                {% for language in languages %}
+                    <div class="lanuage-option">
+                        <!-- If user has selected language, check the checkbox -->
+                        <input type="checkbox" name="languages" value="{{ language }}"
+                        {% if profile.programming_languages and language in profile.programming_languages.split(', ') %} checked {% endif %}>
+                        {{ language }}
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
 
-        <br>
 
-        <!-- GitHub Username -->
-        <label for="github">GitHub Username:</label>
-        <!-- If GitHub Username set, show in text input -->
-        <input type="text" name="github" id="github" {% if profile.github %} value="{{ profile.github }}" {% endif %}>
+            <br>
 
-        <br>
+            <!-- GitHub Username -->
+            <label for="github">GitHub Username:</label>
+            <!-- If GitHub Username set, show in text input -->
+            <input type="text" name="github" id="github" {% if profile.github %} value="{{ profile.github }}" {% endif %}>
 
-        <!-- Linkedin Profile -->
-        <label for="linkedin">Linkedin:</label>
-        <!-- If Linkedin profile set, show in text input -->
-        <input type="text" name="linkedin" id="linkedin" {% if profile.linkedin %} value="{{ profile.linkedin }}" {% endif %}>
+            <br>
 
-        <button type="submit">Update Profile</button>
-    </form>
+            <!-- Linkedin Profile -->
+            <label for="linkedin">Linkedin:</label>
+            <!-- If Linkedin profile set, show in text input -->
+            <input type="text" name="linkedin" id="linkedin" {% if profile.linkedin %} value="{{ profile.linkedin }}" {% endif %}>
+
+            <button type="submit" class="submit-btn">Update Profile</button>
+        </form>
+    </div>
 {% endblock%}
 {% block scripts %}
     <!--Link to Javascript-->
