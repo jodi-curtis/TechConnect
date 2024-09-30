@@ -151,8 +151,17 @@ def logout_action():
 def profile(user_id):
     # Get user by user id
     user = User.query.get_or_404(user_id)
+
+    # Get posts by user
+    posts = Post.query.filter_by(user_id=user_id).all()
+
+    # For each post check if the logged in user has liked it
+    for post in posts:
+        post.liked_by_current_user = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first() is not None
+
+
     # Render Profile page and pass user, profile and list of languages
-    return render_template("profile.html", user=user, profile=user.profile, available_languages=AVAILABLE_LANGUAGES)
+    return render_template("profile.html", user=user, profile=user.profile, posts=posts, available_languages=AVAILABLE_LANGUAGES)
 
 # Edit Profile Page
 @app.route('/profile/edit/<int:user_id>', methods=['GET', 'POST'])
@@ -358,9 +367,14 @@ def delete_post(post_id):
     # Flash message 
     flash('Your Post has been deleted.')
     
-    # Redirect to posts page
-    return redirect(url_for('posts'))
+    next_page = request.form.get('next')
 
+    if next_page == 'profile':
+        next_user = request.form.get('nextuser')
+        return redirect(url_for('profile', user_id=int(next_user)))
+    else:
+        return redirect(url_for('posts'))
+    
 # Like/unlike post
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
@@ -380,8 +394,14 @@ def like_post(post_id):
         db.session.commit()
         flash('You liked the post')
     
-    # Redirect to posts page
-    return redirect(url_for('posts'))
+
+    next_page = request.form.get('next')
+
+    if next_page == 'profile':
+        next_user = request.form.get('nextuser')
+        return redirect(url_for('profile', user_id=int(next_user)))
+    else:
+        return redirect(url_for('posts'))
 
 # Comment on post
 @app.route('/comment/<int:post_id>', methods=['POST'])
@@ -399,8 +419,13 @@ def comment_post(post_id):
     # Flash message
     flash('Your comment was added')
 
-    # Redirect to posts page
-    return redirect(url_for('posts'))
+    next_page = request.form.get('next')
+
+    if next_page == 'profile':
+        next_user = request.form.get('nextuser')
+        return redirect(url_for('profile', user_id=int(next_user)))
+    else:
+        return redirect(url_for('posts'))    
 
 # Delete Comment
 @app.route('/delete_comment/<int:comment_id>', methods=['POST'])
@@ -416,5 +441,10 @@ def delete_comment(comment_id):
     # Flash message
     flash('Your comment has been deleted.')
     
-    # Redirect to posts page
-    return redirect(url_for('posts'))
+    next_page = request.form.get('next')
+
+    if next_page == 'profile':
+        next_user = request.form.get('nextuser')
+        return redirect(url_for('profile', user_id=int(next_user)))
+    else:
+        return redirect(url_for('posts'))

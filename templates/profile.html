@@ -52,6 +52,113 @@
             </div>
         </div>
     {% endif %}
+
+
+    {% if posts %}
+        <!-- For each post -->
+        {% for post in posts %}
+            <div class="post">
+                <div class="post-header">
+                    <!-- Posts title -->
+                    <h1 class="post-title">{{ post.title }}</h1>
+                    <div class="user-info">
+                        <!-- User who created post and link to their profile -->
+                        <a href="/profile/{{ post.user.id }}">
+                            <h4>{{ post.user.profile.first_name }} {{ post.user.profile.surname }}</h4>
+                        </a>
+                        <!-- Time the post was created -->
+                        <small>{{ post.timestamp.strftime('%d-%m-%Y %H:%M') }}</small>
+                        
+                        <!-- If current user created post -->
+                        {% if post.user_id == current_user.id %}
+                            <!-- Delete button which shows javascript alert to ask user if they are sure they want to delete post -->
+                            <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirmDelete();">
+                                <input type="hidden" name="next" value="profile">
+                                <input type="hidden" name="nextuser" value="{{ user.id }}">
+                                <button type="submit" class="delete-button">Delete Post</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <!-- Posts content -->
+                    <p>{{ post.content }}</p>
+                </div>
+
+                <hr>
+
+                <div class="post-likes-comments">
+                    <!-- Like Button -->
+                    <form action="{{ url_for('like_post', post_id=post.id) }}" method="POST" class="likes-form">
+                        <input type="hidden" name="next" value="profile">
+                        <input type="hidden" name="nextuser" value="{{ user.id }}">
+                        <button type="submit" class="like-button">
+                            <!-- If user has already liked post, show 'Unlike'-->
+                            {% if post.liked_by_current_user %}
+                                <i class="fa-solid fa-thumbs-up fa-lg"></i>
+                            <!-- Else show 'Like' -->
+                            {% else %}
+                                <i class="fa-regular fa-thumbs-up fa-lg"></i>
+                            {% endif %}
+                        </button>
+                        <!-- Show total number of likes on post -->
+                        <span class="like-count">{{ post.likes|length }} Likes</span>
+                    </form>
+
+                    <!-- If post has comments -->
+                    {% if post.comments%}
+                        <ul class="comment-list">
+                            <!-- For each comment-->
+                            {% for comment in post.comments %}
+                                <li class="comment-item">
+                                    <div class="comment-content">
+                                        <div>
+                                            <!-- Name of user who posted comment -->
+                                            <strong>{{ comment.user.profile.first_name }} {{ comment.user.profile.surname }}:</strong>
+                                            <!-- Comment content --> 
+                                            {{ comment.comment }} 
+                                        </div>
+
+                                        
+                                        <!-- Date and time comment was posted -->
+                                        <small class="comment-timestamp">{{ comment.timestamp.strftime('%d-%m-%Y %H:%M') }}</small>
+
+                                    </div>
+                                    
+                                    <!-- If comment was posted by current user, allow them to delete -->
+                                    {% if comment.user_id == current_user.id %}
+                                    <div class="delete-comment-form">
+                                        <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="POST" class="delete-comment-form">
+                                            <input type="hidden" name="next" value="profile">
+                                            <input type="hidden" name="nextuser" value="{{ user.id }}">
+                                            <button type="submit" class="delete-button">Delete</button>
+                                        </form>
+                                        </div>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    <!-- Else show 'No Comments' message -->
+                    {% else %}
+                        <p class="no-comments">No Comments</p>
+                    {% endif %}
+
+
+                    <!-- Form to add a comment to post -->
+                    <form action="{{ url_for('comment_post', post_id=post.id) }}" method="POST" class="add-comment-form">
+                        <input type="hidden" name="next" value="profile">
+                        <input type="hidden" name="nextuser" value="{{ user.id }}">
+                        <!-- Comment textares-->
+                        <textarea name="comment" rows="2" placeholder="Write a comment..." required></textarea>
+                        <!-- Comment button -->
+                        <button type="submit">Comment</button>
+                    </form>
+                </div>
+
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock%}
 {% block scripts %}
     <!--Link to Javascript-->
