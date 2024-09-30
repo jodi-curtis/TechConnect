@@ -6,10 +6,10 @@
 
 <div class="search-and-post">
 <!-- Form to search for post -->
-<form class="search-form">
+<form class="search-form" method="GET" action="{{ url_for('posts') }}">
     <h2><i class="fa-solid fa-magnifying-glass"></i> Search by post title:</h2>
     <!-- Search Title input -->
-    <input type="text" name="title" placeholder="Post Title" required>
+    <input type="text" name="title" placeholder="Post Title">
     <!-- Search button -->
     <button type="submit">Search</button>
 </form>
@@ -30,6 +30,10 @@
 
 
 <hr id="post-hr">
+
+{% if search_title %}
+    <p id="filtered-msg">Posts filtered by titles which contain '{{ search_title }}' <a href="{{ url_for('posts') }}">Show all posts</a></p>
+{% endif %}
 
 <!-- If posts exist -->
 {% if posts %}

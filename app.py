@@ -302,15 +302,25 @@ def notifications():
 @app.route("/", methods=['GET', 'POST'])
 @login_required
 def posts():
+    # Get the title search
+    search_title = request.args.get('title')
+
     # Get all posts order by date/time descending
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    query = Post.query.order_by(Post.timestamp.desc())
+
+    # If there's a search term, filter posts by title
+    if search_title:
+        query = query.filter(Post.title.ilike(f"%{search_title}%"))
+
+    # Execute the query to get the posts
+    posts = query.all()
 
     # For each post check if the logged in user has liked it
     for post in posts:
         post.liked_by_current_user = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first() is not None
 
     # Render index(posts) page and pass all posts
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, search_title=search_title)
 
 # Create new post
 @app.route("/create_post", methods=['POST'])

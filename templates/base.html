@@ -12,13 +12,17 @@
     <!--Header-->
     <header>
         <div class="header-top">
-            <h1>Tech Connect</h1>
+            <div class="logo-container">
+                <a href="{{ url_for('posts') }}">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Tech Connect Logo" class="logo">
+                </a>
+            </div>
             <div class="header-links">
                 {% if current_user.is_authenticated %}
-                    <p class="items">Welcome {{ current_user.profile.first_name }}!</p>
-                    <a href="{{ url_for('profile', user_id=current_user.id) }}" class="items"><i class="fa-solid fa-user fa-2xl"></i></a>
+                    <p class="items" id="welcome-message">Welcome {{ current_user.profile.first_name }}!</p>
+                    <a href="{{ url_for('profile', user_id=current_user.id) }}" class="items"><i class="fa-solid fa-user responsive-icon"></i></a>
                     <form action="{{ url_for('logout_action') }}" method="POST" class="items">
-                        <button type="submit">Logout</button>
+                        <button id="logout-btn" type="submit">Logout</button>
                     </form>
                 {% else %}
                     <a href="{{ url_for('register') }}" class="items">Register</a>
