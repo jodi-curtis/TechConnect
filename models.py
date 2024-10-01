@@ -32,7 +32,6 @@ class Profile(db.Model):
     surname = db.mapped_column(db.String(50), nullable=False)
     email = db.mapped_column(db.String(100), nullable=False)
     bio = db.mapped_column(db.Text, nullable=True)
-    profile_picture = db.mapped_column(db.String(150), nullable=True)
     programming_languages = db.mapped_column(db.String(200), nullable=True)
     github = db.mapped_column(db.String(50), nullable=True)
     linkedin = db.mapped_column(db.String(50), nullable=True)
