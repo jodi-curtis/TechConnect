@@ -130,6 +130,7 @@ footer {
 
 .title{
     padding-bottom: 2%;
+    font-size: 1.5em;
 }
 
 .flashes{
@@ -235,13 +236,16 @@ footer {
     flex: 1;
 }
 
+.search-form h2, .create-post-form h2 {
+    font-size: 1em;
+}
+
 .search-form button{
     background-color: #a9adce;
     padding: 0.5em 1em;
     border-radius: 5px;
     color: #012c40;
     border: solid 2px #012c40;
-    font-size: 1em;
     font-weight: bold;
     margin-left: 1em;
     cursor: pointer;
@@ -286,7 +290,6 @@ footer {
     border-radius: 5px;
     color: #012c40;
     border: solid 2px #012c40;
-    font-size: 1em;
     font-weight: bold;
     cursor: pointer;
 }
@@ -450,10 +453,26 @@ footer {
     padding: 0.5em;
     font-size: 12px;
     cursor: pointer;
+    margin-top: 0.3em;
 }
 
 .delete-button:hover {
     background-color: #c82333;
+}
+
+.edit-button {
+    background-color: #012c40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 0.3em;
+}
+
+.edit-button:hover {
+    background-color: #21c3d9;
 }
 
 /* No Comments Message */
@@ -492,6 +511,21 @@ footer {
     background-color: #21c3d9;
 }
 
+#backToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #012c40;
+    color: white;
+    cursor: pointer;
+    padding: 1.5em;
+    border-radius: 50%;
+  }
+
 
 /************************************ Users ********************************/
 .user{
@@ -501,7 +535,7 @@ footer {
     flex-direction: row;
     justify-content: space-between;
     padding: 5%;
-    margin: 2% 0;
+    margin: 3%;
     text-decoration: none;
     color: #000000;
 }
@@ -515,8 +549,8 @@ footer {
 }
 
 .user .friend-status .square-btn, .user .friend-status .square-btn:disabled{
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -700,7 +734,7 @@ footer {
 /********************************* Edit Profile ****************************/
 .edit-profile-container {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 2em auto;
     background: #ffffff;
     padding: 1em;
     border-radius: 10px;
@@ -799,6 +833,10 @@ footer {
     .main-nav-links li a {
         font-size: 1em;
     }
+    
+    .title{
+        font-size: 2em;
+    }
 
     .create-post-form button{
         width: 30%;
@@ -809,6 +847,10 @@ footer {
     .delete-button {
         padding: 0.75em;
     }
+    
+    .edit-button {
+        padding: 0.75em;
+    }
 
     .add-comment-form button {
         padding: 1em;
@@ -816,6 +858,19 @@ footer {
 
     .tab .tablinks {
         font-size: 1em;
+    }
+
+    .user{
+        margin: 2% 0;
+    }
+
+    .user .friend-status .square-btn, .user .friend-status .square-btn:disabled{
+        width: 55px;
+        height: 55px;
+    }
+
+    .edit-profile-container {
+        margin: 1em auto;
     }
     
 }
@@ -835,6 +890,23 @@ footer {
 
     .main-nav-links li a {
         font-size: 1.25em;
+    }
+
+    .search-form h2, .create-post-form h2 {
+        font-size: 1.5em;
+    }
+
+    .search-form button{
+        font-size: 1em;
+    }
+
+    .create-post-form button{
+        font-size: 1em;
+    }
+
+    .user .friend-status .square-btn, .user .friend-status .square-btn:disabled{
+        width: 70px;
+        height: 70px;
     }
 
     .search-and-post{
@@ -862,5 +934,9 @@ footer {
     }
     .tab .tablinks {
         font-size: 1.2em;
+    }
+
+    .edit-profile-container {
+        margin: 0 auto;
     }
 }

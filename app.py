@@ -353,6 +353,34 @@ def create_post():
     # Redirect to posts page
     return redirect(url_for('posts')) 
 
+
+# Edit Post Page
+@app.route('/post/edit/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    # Get post by post id
+    post = Post.query.get_or_404(post_id)
+
+    if request.method == 'POST':
+        # Get post title from form
+        post.title = request.form.get('title') or post.title
+        # Get post content from form
+        post.content = request.form.get('content') or post.content
+
+        # Commit to Database
+        db.session.commit()
+
+        # Flash message
+        flash('Post updated successfully!')
+
+        # Redirect to Profile page for that user
+        return redirect(url_for('posts'))
+    
+    # Render edit post page and pass post id
+    return render_template("edit_post.html", post=post)
+
+
+
 # Delete post
 @app.route('/delete_post/<int:post_id>', methods=['POST'])
 @login_required

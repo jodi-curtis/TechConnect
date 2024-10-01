@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Edit Post{% endblock%}
+{% block main %}
+    <div class="edit-profile-container">
+        <h1 class="edit-title">Edit Post</h1>
+        
+        <!-- Form to add/edit post details-->
+        <form action="{{ url_for('edit_post', post_id=post.id) }}" method="post">
+            <!-- Post Title -->
+            <label for="title">Title:</label>
+            <!-- If Title set, show in text input -->
+            <input type="text" name="title" id="title" {% if post.title %} value="{{ post.title }}" {% endif %}>
+
+            <!-- Post Content -->
+            <label for="content">Post Content:</label>
+            <!-- If Content is set, show in textarea -->
+            <textarea name="content" id="content" rows="4" cols="50">{% if post.content %}{{ post.content }}{% endif %}</textarea>
+
+            <button type="submit" class="submit-btn">Update Post</button>
+        </form>
+    </div>
+{% endblock%}
+{% block scripts %}
+    <!--Link to Javascript-->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock%}

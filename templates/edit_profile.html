@@ -6,14 +6,13 @@
         <!-- Users name -->
         <h1 class="username">{{ profile.first_name }} {{ profile.surname }} ({{ user.username }})</h1>
 
-        <!-- Email -->
-        <label for="email">Email:</label>
-        <!-- If Email set, show in text input -->
-        <input type="text" name="email" id="email" {% if profile.email %} value="{{ profile.email }}" {% endif %}>
-        
-
         <!-- Form to add/edit profile details-->
         <form action="{{ url_for('edit_profile', user_id=user.id) }}" method="post">
+            <!-- Email -->
+            <label for="email">Email:</label>
+            <!-- If Email set, show in text input -->
+            <input type="text" name="email" id="email" {% if profile.email %} value="{{ profile.email }}" {% endif %}>
+        
             <!-- Bio -->
             <label for="bio">Bio:</label>
             <!-- If Bio is set, show in textarea -->

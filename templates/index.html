@@ -51,8 +51,14 @@
                     <!-- Time the post was created -->
                     <small>{{ post.timestamp.strftime('%d-%m-%Y %H:%M') }}</small>
                     
+                    <br>
+                    
                     <!-- If current user created post -->
                     {% if post.user_id == current_user.id %}
+                        <!-- Edit button to allow user to edit post -->
+                        <a href="{{ url_for('edit_post', post_id = post.id) }}">
+                            <button type="button" class="edit-button">Edit Post</button>
+                        </a>
                         <!-- Delete button which shows javascript alert to ask user if they are sure they want to delete post -->
                         <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirmDelete();">
                             <input type="hidden" name="next" value="posts">
@@ -140,6 +146,8 @@
 {% else %}
     <p>No Posts Found</p>
 {% endif %}
+
+<button onclick="topFunction()" id="backToTopBtn" title="Go to top"><i class="fa-solid fa-arrow-up fa-xl"></i></button>
 
 
 {% endblock%}
