@@ -181,6 +181,12 @@ footer {
     background-color: #ffffff;
 }
 
+@keyframes fadeIn{
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 
 /********************** Login ********************************/
@@ -190,6 +196,9 @@ footer {
     background: #daebf2;
     padding: 1em;
     border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
 }
 
 .login-container h1 {
@@ -328,6 +337,10 @@ footer {
     border-radius: 10px;
     padding: 5%;
     margin-bottom: 3em;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
+    animation-delay: .3s;
 }
 
 .post-header{
@@ -637,6 +650,10 @@ footer {
     justify-content: space-between;
     align-items: center;
     margin: 2em 0 3em 0;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
+    animation-delay: .3s;
 }
 
 .profile-header .title {
@@ -672,6 +689,10 @@ footer {
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
+    animation-delay: .6s;
 }
 
 .user-contact-info p {
@@ -694,6 +715,10 @@ footer {
     padding: 1.5% 3%;
     border-radius: 10px;
     margin: 3% 0;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
+    animation-delay: .9s;
 }
 
 .user-languages{
@@ -701,6 +726,10 @@ footer {
     border-radius: 10px;
     padding: 1em 3em;
     margin-bottom: 3em;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
+    animation-delay: 1.2s;
 }
 
 .languages-container::after {
