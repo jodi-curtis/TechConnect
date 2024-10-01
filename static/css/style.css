@@ -110,6 +110,11 @@ header{
     font-size: 0.9em;
 }
 
+.main-nav-links li a:hover{
+    color: #a9adce;
+    font-weight: bold;
+}
+
 .main-nav-links li a.active{
     color: #012c40;
     font-weight: bold;
@@ -123,8 +128,10 @@ main {
 
 /*Footer*/
 footer {
-    padding: 5px;
+    padding: 1.5em;
     text-align: center;
+    background-color: #012c40;
+    color: #daebf2;
 }
 
 
@@ -768,6 +775,10 @@ footer {
     padding: 1em;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 1s forwards;
+    animation-delay: .3s;
 }
 
 .edit-title {
