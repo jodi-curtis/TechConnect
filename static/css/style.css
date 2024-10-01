@@ -1,8 +1,12 @@
+/*************************** GENERAL **************************/
 html, body {
     height: 100%;
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Body */
 body {
     display: flex;
     flex-direction: column;
@@ -16,6 +20,7 @@ body.login-register{
     color: #daebf2;
 }
 
+/* Header */
 header{
     display: flex;
     flex-direction: column;
@@ -86,6 +91,7 @@ header{
     transform: translateY(4px);
 }
 
+/* Navigation */
 .main-nav {
     background-color: #1ca5b8;
 }
@@ -120,10 +126,10 @@ header{
     font-weight: bold;
 }
 
-
 /*Main*/
 main {
     margin: 2% 10%;
+    flex: 1;
 }
 
 /*Footer*/
@@ -134,12 +140,13 @@ footer {
     color: #daebf2;
 }
 
-
+/*Title*/
 .title{
     padding-bottom: 2%;
     font-size: 1.5em;
 }
 
+/* Flash messages */
 .flashes{
     list-style: none;
     padding: 1%;
@@ -188,6 +195,7 @@ footer {
     background-color: #ffffff;
 }
 
+/* Fade in animation */
 @keyframes fadeIn{
     to{
         opacity: 1;
@@ -845,6 +853,7 @@ footer {
     background-color: #21c3d9;
 }
 
+/*************************TABLET SCREEN******************/
 @media (min-width: 600px) {
     .header-links .items-log-reg{
         font-size: 1.2em;
@@ -915,6 +924,7 @@ footer {
     
 }
 
+/*************************PC SCREEN******************/
 @media (min-width: 1100px) {
     .header-links .items-log-reg{
         font-size: 1.5em;
@@ -972,6 +982,7 @@ footer {
     .user-container {
         grid-template-columns: repeat(2, 1fr);
     }
+    
     .tab .tablinks {
         font-size: 1.2em;
     }
